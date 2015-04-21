@@ -1,0 +1,12 @@
+// paramters.js
+// ========
+module.exports = {
+  db_connection: function () {
+    return {
+        host     : 'localhost',
+        user     : '****',
+        password : '****',
+        database : 'innovare8' 
+    };
+  }
+};
