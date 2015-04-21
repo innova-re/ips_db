@@ -17,16 +17,8 @@ connection.connect(function(err){
 connection.query(query.services(), function(err, rows, fields) {
     if (err) throw err;
 
+    // TODO should write a JSON file
     console.log('The solution is: ', rows);
-
-    var obj = {};
-
-    for(row in rows) {
-        var line = rows[row];
-        console.log('\nrow: ', line['nome']);
-        console.log('\n', line['descrizione']);
-        console.log('\n', line['id_laboratorio']);
-    }
 });
 
 connection.end();
