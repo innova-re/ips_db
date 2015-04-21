@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/innova-re/ips_db/issues"
   },
-  "homepage": "https://github.com/innova-re/ips_db"
+  "homepage": "https://github.com/innova-re/ips_db",
+  "devDependencies": {
+    "mysql": "^2.6.2"
+  }
 }
