@@ -29,9 +29,11 @@ connection.connect(function(err){
         console.log('Error connecting database ...');  
     }
 });
-
+queries.create_table_provincia();
 writeJson(queries.services(), 'services.data.json');
 writeJson(queries.instruments(), 'instruments.data.json');
 writeJson(queries.laboratories(), 'laboratories.data.json');
+writeJson(queries.macroarea(), 'macroarea.data.json');
+
 
 connection.end();
