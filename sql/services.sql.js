@@ -63,23 +63,15 @@ module.exports = {
     },
     macroarea: function () {
         return "SELECT \
-            laboratorio.id_laboratorio as id, \
-            laboratorio.nome as name, laboratorio.descrizione as description, \
-            laboratorio.parole_chiave as laboratory_keywords, \
-            laboratorio.gps_latitudine as lat, laboratorio.gps_longitudine as lng, \
-            provincia.nome as provincia_name, \
-            ente.nome as ente_name, \
-            macroarea.nome as macroarea_name \
+            DISTINCT macroarea.nome as macroarea_name, \
+            laboratorio_has_macroarea.id_laboratorio as id, \
+            laboratorio.gps_latitudine as lat, laboratorio.gps_longitudine as lng \
             FROM \
-            laboratorio, provincia, ente, macroarea, laboratorio_has_macroarea \
-            WHERE \
-            laboratorio.id_provincia = provincia.id \
-            AND \
-            ente.id = laboratorio.id_ente \
-            AND \
-            laboratorio.id_laboratorio = laboratorio_has_macroarea.id_laboratorio \
-            AND \
-            macroarea.id = laboratorio_has_macroarea.id";
+            ( \
+                laboratorio_has_macroarea \
+                LEFT JOIN macroarea ON laboratorio_has_macroarea.id_macroarea=macroarea.id \
+                LEFT JOIN laboratorio ON laboratorio_has_macroarea.id_laboratorio=laboratorio.id_laboratorio \
+            );"
     },
     create_table_provincia: function () {
         return "CREATE TABLE IF NOT EXISTS `provincia`(id INT, `nome` VARCHAR(200)); \
