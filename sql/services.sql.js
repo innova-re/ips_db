@@ -3,26 +3,30 @@
 module.exports = {
     services: function () {
         return "SELECT \
-            categoria_servizio.id as service__category_id, \
-            categoria_servizio.nome as service_category_name, \
-            servizi.id as service_id, \
-            servizi.nome as service_name, servizi.descrizione as service_description, \
+            categoria_servizio.nome as category, \
+            servizi.id as id, \
+            servizi.nome as service_name, \
+            servizi.descrizione as service_description, \
             laboratorio.nome as laboratory_name, \
             laboratorio.id_laboratorio as laboratory_id, \
-            laboratorio.descrizione as laboratory_description, \
-            laboratorio.parole_chiave as laboratory_keywords \
+            laboratorio.parole_chiave as laboratory_keywords, \
+            servizi.parole_chiave as service_keywords, \
+            laboratorio.descrizione as laboratory_description \
             FROM \
             servizi,laboratorio,categoria_servizio \
             WHERE servizi.id_laboratorio=laboratorio.id_laboratorio \
             AND \
             categoria_servizio.id=servizi.id_categoria_servizio \
-            ORDER BY service_category_name";
+            ORDER BY category";
     },
     instruments: function () {
         return "SELECT \
-            categoria_strumento.nome as instrument_category_name, strumenti.nome as instrument_name, \
+            strumenti.id as id, \
+            categoria_strumento.nome as category, \
+            strumenti.nome as instrument_name, \
             strumenti.descrizione_dello_strumento as instrument_description, \
-            laboratorio.nome as laboratory_name,  laboratorio.id_laboratorio as laboratory_id, \
+            laboratorio.nome as laboratory_name,  \
+            laboratorio.id_laboratorio as laboratory_id, \
             laboratorio.descrizione as laboratory_description, \
             laboratorio.parole_chiave as laboratory_keywords \
             FROM \
@@ -30,15 +34,21 @@ module.exports = {
             WHERE strumenti.id_laboratorio=laboratorio.id_laboratorio \
             AND \
             categoria_strumento.id=strumenti.id_categoria \
-            ORDER BY instrument_category_name";
+            ORDER BY category";
     },
     laboratories: function () {
         return "SELECT \
             laboratorio.id_laboratorio as id, \
-            laboratorio.nome as name, laboratorio.descrizione as description, \
+            laboratorio.nome as name, \
+            laboratorio.descrizione as description, \
             laboratorio.parole_chiave as laboratory_keywords, \
-            laboratorio.gps_latitudine as lat, laboratorio.gps_longitudine as lng, \
+            laboratorio.gps_latitudine as lat, \
+            laboratorio.gps_longitudine as lng, \
             provincia.nome as provincia_name, \
+            servizi.parole_chiave as service_keywords, \
+            servizi.descrizione as service_description, \
+            strumenti.nome as instrument_name, \
+            strumenti.descrizione_dello_strumento as instrument_description, \
             ente.nome as ente_name, \
             area.nome as area_name, \
             laboratorio.sede as sede, \
@@ -47,8 +57,12 @@ module.exports = {
             concat(laboratorio.indirizzo, ', ', laboratorio.numero_civico, ' - ', comune.nome) as address, \
             concat(laboratorio_responsabile.nome, ' ', laboratorio_responsabile.cognome) as responsabile \
             FROM \
-            laboratorio, provincia, ente, area, comune, laboratorio_responsabile \
+            laboratorio, provincia, ente, area, comune, laboratorio_responsabile, servizi, strumenti \
             WHERE \
+            servizi.id_laboratorio=laboratorio.id_laboratorio \
+            AND \
+            strumenti.id_laboratorio=laboratorio.id_laboratorio \
+            AND \
             area.id_area = laboratorio.id_area \
             AND \
             laboratorio.id_provincia = provincia.id \
