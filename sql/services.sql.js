@@ -45,10 +45,6 @@ module.exports = {
             laboratorio.gps_latitudine as lat, \
             laboratorio.gps_longitudine as lng, \
             provincia.nome as provincia_name, \
-            servizi.parole_chiave as service_keywords, \
-            servizi.descrizione as service_description, \
-            strumenti.nome as instrument_name, \
-            strumenti.descrizione_dello_strumento as instrument_description, \
             ente.nome as ente_name, \
             area.nome as area_name, \
             laboratorio.sede as sede, \
@@ -57,12 +53,8 @@ module.exports = {
             concat(laboratorio.indirizzo, ', ', laboratorio.numero_civico, ' - ', comune.nome) as address, \
             concat(laboratorio_responsabile.nome, ' ', laboratorio_responsabile.cognome) as responsabile \
             FROM \
-            laboratorio, provincia, ente, area, comune, laboratorio_responsabile, servizi, strumenti \
+            laboratorio, provincia, ente, area, comune, laboratorio_responsabile \
             WHERE \
-            servizi.id_laboratorio=laboratorio.id_laboratorio \
-            AND \
-            strumenti.id_laboratorio=laboratorio.id_laboratorio \
-            AND \
             area.id_area = laboratorio.id_area \
             AND \
             laboratorio.id_provincia = provincia.id \
